@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TaskMaster.Shared\TaskMaster.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
