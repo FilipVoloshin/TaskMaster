@@ -11,7 +11,7 @@ using TaskMaster.Infrastructure.Contexts;
 
 namespace TaskMaster.Infrastructure.Migrations
 {
-    [DbContext(typeof(TaskMasterDbContext))]
+    [DbContext(typeof(ReadonlyTaskMasterDbContext))]
     [Migration("20230401131649_InitialMigration")]
     partial class InitialMigration
     {

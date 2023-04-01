@@ -1,11 +1,12 @@
-﻿using TaskMaster.Infrastructure.Entities.Base;
+﻿using TaskMaster.Infrastructure.Entities.Abstractions;
+using TaskMaster.Infrastructure.Entities.Base;
 
 namespace TaskMaster.Infrastructure.Entities
 {
     /// <summary>
     /// Represents a task list entity.
     /// </summary>
-    public class TaskList : BaseEntity
+    public class TaskList : BaseEntity, IAuthorable
     {
         /// <summary>
         /// Name of the task list.

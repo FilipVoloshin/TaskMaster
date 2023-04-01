@@ -25,7 +25,7 @@ namespace TaskMaster.Infrastructure.Extensions
         public static IServiceCollection RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("PostgreSQL");
-            services.AddDbContext<TaskMasterDbContext>(options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+            services.AddDbContext<ReadonlyTaskMasterDbContext>(options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
             services.AddScoped<ISeeder, DbSeeder>();
 
             return services;
@@ -34,7 +34,7 @@ namespace TaskMaster.Infrastructure.Extensions
         public static async Task SeedDatabaseAsync(this IServiceProvider serviceProvider, CancellationToken cancellationToken = default)
         {
             using var scope = serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<TaskMasterDbContext>();
+            var dbContext = scope.ServiceProvider.GetRequiredService<ReadonlyTaskMasterDbContext>();
             await new DbSeeder(dbContext, NullLogger<DbSeeder>.Instance).SeedAsync(cancellationToken);
         }
 

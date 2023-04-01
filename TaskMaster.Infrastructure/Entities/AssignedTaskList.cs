@@ -1,15 +1,16 @@
-﻿using TaskMaster.Infrastructure.Entities.Base;
+﻿using TaskMaster.Infrastructure.Entities.Abstractions;
+using TaskMaster.Infrastructure.Entities.Base;
 namespace TaskMaster.Infrastructure.Entities
 {
     /// <summary>
-    /// Represents the mapping between a <see cref="Entities.User"/> and a <see cref="Entities.TaskList"/>
+    /// Represents the mapping between a <see cref="User"/> and a <see cref="Entities.TaskList"/>
     /// </summary>
-    public class AssignedTaskList : BaseEntity
+    public class AssignedTaskList : BaseEntity, IAuthorable
     {
         /// <summary>
         /// Unique identifier of <see cref="Entities.User"/>
         /// </summary>
-        public Guid UserId { get; set; }
+        public Guid AssigneeId { get; set; }
 
         /// <summary>
         /// Unique idenitifier of <see cref="Entities.TaskList"/>
@@ -24,7 +25,7 @@ namespace TaskMaster.Infrastructure.Entities
 
         #region Navigation properties
 
-        public User User { get; set; } = null!;
+        public User Assignee { get; set; } = null!;
 
         public User Author { get; set; } = null!;
 
