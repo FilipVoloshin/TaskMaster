@@ -5,7 +5,7 @@ namespace TaskMaster.Infrastructure.Entities
     /// <summary>
     /// Represents a user (assignee or owner) entity.
     /// </summary>
-    internal class User : BaseEntity
+    public class User : BaseEntity
     {
         /// <summary>
         /// The name of the user 

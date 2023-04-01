@@ -4,7 +4,7 @@ using TaskMaster.Infrastructure.Entities;
 
 namespace TaskMaster.Infrastructure.EntityConfigurations
 {
-    internal class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {

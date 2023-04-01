@@ -4,7 +4,7 @@ namespace TaskMaster.Infrastructure.Entities
     /// <summary>
     /// Represents the mapping between a <see cref="Entities.User"/> and a <see cref="Entities.TaskList"/>
     /// </summary>
-    internal class AssignedTaskList : BaseEntity
+    public class AssignedTaskList : BaseEntity
     {
         /// <summary>
         /// Unique identifier of <see cref="Entities.User"/>

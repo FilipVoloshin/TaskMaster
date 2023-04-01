@@ -51,7 +51,7 @@ namespace TaskMaster.Infrastructure.Seeder
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
-        private async Task AddDataIfTableIsEmptyAsync<T>(DbSet<T> dbSet, List<T> data, CancellationToken cancellationToken) where T : class
+        private static async Task AddDataIfTableIsEmptyAsync<T>(DbSet<T> dbSet, List<T> data, CancellationToken cancellationToken) where T : class
         {
             if (!dbSet.Any())
             {
@@ -59,7 +59,7 @@ namespace TaskMaster.Infrastructure.Seeder
             }
         }
 
-        private (List<User>, List<TaskList>) GetUsersAndTaskLists()
+        private static  (List<User>, List<TaskList>) GetUsersAndTaskLists()
         {
             var users = new List<User>
             {
@@ -67,26 +67,37 @@ namespace TaskMaster.Infrastructure.Seeder
                 new() { Id = Guid.NewGuid(), Name = "Philip Voloshyn" }
             };
 
+            var startDate = DateTime.UtcNow.AddMonths(-1);
+            var endDate = DateTime.UtcNow;
+
             var taskLists = new List<TaskList>
             {
-                new() { Id = Guid.NewGuid(), Name = "Urgent Tasks", AuthorId = users[0].Id },
-                new() { Id = Guid.NewGuid(), Name = "Important Tasks", AuthorId = users[0].Id },
-                new() { Id = Guid.NewGuid(), Name = "Secondary Tasks", AuthorId = users[0].Id },
-                new() { Id = Guid.NewGuid(), Name = "Random Tasks", AuthorId = users[1].Id }
+                new() { Id = Guid.NewGuid(), Name = "Urgent Tasks", AuthorId = users[0].Id, CreatedAtUtc = RandomDate(startDate, endDate) },
+                new() { Id = Guid.NewGuid(), Name = "Important Tasks", AuthorId = users[0].Id, CreatedAtUtc = RandomDate(startDate, endDate) },
+                new() { Id = Guid.NewGuid(), Name = "Secondary Tasks", AuthorId = users[0].Id, CreatedAtUtc = RandomDate(startDate, endDate) },
+                new() { Id = Guid.NewGuid(), Name = "Random Tasks", AuthorId = users[1].Id, CreatedAtUtc = RandomDate(startDate, endDate) }
             };
 
             return (users, taskLists);
         }
 
-        private List<AssignedTaskList> GetAssignedTaskLists(List<User> users, List<TaskList> taskLists)
+        private static List<AssignedTaskList> GetAssignedTaskLists(List<User> users, List<TaskList> taskLists)
         {
             return new List<AssignedTaskList>
             {
-                new() { UserId = users[0].Id, TaskListId = taskLists[0].Id },
-                new() { UserId = users[0].Id, TaskListId = taskLists[1].Id },
-                new() { UserId = users[0].Id, TaskListId = taskLists[2].Id },
-                new() { UserId = users[1].Id, TaskListId = taskLists[3].Id }
+                new() { UserId = users[1].Id, TaskListId = taskLists[0].Id, AuthorId = users[0].Id  },
+                new() { UserId = users[0].Id, TaskListId = taskLists[1].Id, AuthorId = users[0].Id  },
+                new() { UserId = users[1].Id, TaskListId = taskLists[2].Id, AuthorId = users[0].Id  },
+                new() { UserId = users[1].Id, TaskListId = taskLists[3].Id, AuthorId = users[1].Id }
             };
+        }
+
+        private static DateTime RandomDate(DateTime start, DateTime end)
+        {
+            int range = (end - start).Days;
+            int randomDay = new Random().Next(range);
+
+            return start.AddDays(randomDay);
         }
 
         #endregion

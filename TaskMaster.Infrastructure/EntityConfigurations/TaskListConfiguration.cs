@@ -5,7 +5,7 @@ using static TaskMaster.Shared.Constants;
 
 namespace TaskMaster.Infrastructure.EntityConfigurations
 {
-    internal class TaskListConfiguration : IEntityTypeConfiguration<TaskList>
+    public class TaskListConfiguration : IEntityTypeConfiguration<TaskList>
     {
         public void Configure(EntityTypeBuilder<TaskList> builder)
         {

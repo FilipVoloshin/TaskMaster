@@ -5,7 +5,7 @@ namespace TaskMaster.Infrastructure.Entities
     /// <summary>
     /// Represents a task list entity.
     /// </summary>
-    internal class TaskList : BaseEntity
+    public class TaskList : BaseEntity
     {
         /// <summary>
         /// Name of the task list.
