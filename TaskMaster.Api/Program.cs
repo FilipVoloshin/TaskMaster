@@ -9,11 +9,13 @@ builder.Services.AddEndpointsApiExplorer()
                 .RegisterInfrastructure(builder.Configuration)
                 .RegisterApplicationServices();
 
+
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    await app.Services.SeedDatabaseAsync();
     app.UseSwaggerModule();
 }
 

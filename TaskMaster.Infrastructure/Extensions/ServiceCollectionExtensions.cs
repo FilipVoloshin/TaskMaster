@@ -2,6 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TaskMaster.Infrastructure.Contexts;
+using TaskMaster.Infrastructure.Seeder.Abstractions;
+using TaskMaster.Infrastructure.Seeder;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace TaskMaster.Infrastructure.Extensions
 {
@@ -21,11 +24,19 @@ namespace TaskMaster.Infrastructure.Extensions
         /// <returns>The modified service collection.</returns>
         public static IServiceCollection RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<TaskMasterDbContext>(options =>
-            options.UseNpgsql(configuration.GetConnectionString("PostgreSQL"))
-                .UseSnakeCaseNamingConvention());
+            var connectionString = configuration.GetConnectionString("PostgreSQL");
+            services.AddDbContext<TaskMasterDbContext>(options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+            services.AddScoped<ISeeder, DbSeeder>();
 
             return services;
         }
+
+        public static async Task SeedDatabaseAsync(this IServiceProvider serviceProvider, CancellationToken cancellationToken = default)
+        {
+            using var scope = serviceProvider.CreateScope();
+            var dbContext = scope.ServiceProvider.GetRequiredService<TaskMasterDbContext>();
+            await new DbSeeder(dbContext, NullLogger<DbSeeder>.Instance).SeedAsync(cancellationToken);
+        }
+
     }
 }

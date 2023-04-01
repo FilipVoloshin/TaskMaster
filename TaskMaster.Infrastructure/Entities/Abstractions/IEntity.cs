@@ -1,4 +1,4 @@
-﻿namespace TaskMaster.Infrastructure.Abstractions
+﻿namespace TaskMaster.Infrastructure.Entities.Abstractions
 {
     /// <summary>
     /// Represents an entity with a unique identifier of type T.

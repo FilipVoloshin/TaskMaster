@@ -1,4 +1,4 @@
-﻿using TaskMaster.Infrastructure.Abstractions;
+﻿using TaskMaster.Infrastructure.Entities.Abstractions;
 
 namespace TaskMaster.Infrastructure.Entities.Base
 {
