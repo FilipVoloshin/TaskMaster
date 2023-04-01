@@ -4,12 +4,10 @@ using TaskMaster.Infrastructure.Entities;
 
 namespace TaskMaster.Infrastructure.EntityConfigurations
 {
-    internal class AssignedTaskListConfiguration : IEntityTypeConfiguration<AssignedTaskList>
+    public class AssignedTaskListConfiguration : IEntityTypeConfiguration<AssignedTaskList>
     {
         public void Configure(EntityTypeBuilder<AssignedTaskList> builder)
         {
-            builder.HasKey(utl => new { utl.UserId, utl.TaskListId });
-
             builder.HasOne(utl => utl.User)
                 .WithMany(u => u.AssignedTaskLists)
                 .HasForeignKey(utl => utl.UserId)
@@ -24,6 +22,9 @@ namespace TaskMaster.Infrastructure.EntityConfigurations
                 .WithMany(t => t.Assignees)
                 .HasForeignKey(utl => utl.TaskListId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(utl => new { utl.UserId, utl.TaskListId }).IsUnique();
+
         }
     }
 }
