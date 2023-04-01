@@ -1,11 +1,13 @@
 using TaskMaster.Api.Extensions;
+using TaskMaster.Infrastructure.Extensions;
 using TaskMaster.Swagger.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerModule();
-builder.Services.RegisterApplicationServices();
+builder.Services.AddEndpointsApiExplorer()
+                .AddSwaggerModule()
+                .RegisterInfrastructure(builder.Configuration)
+                .RegisterApplicationServices();
 
 var app = builder.Build();
 

@@ -5,7 +5,7 @@ using static TaskMaster.Shared.Constants;
 namespace TaskMaster.Api.Middlewares
 {
     /// <summary>
-    /// Middleware for setting user context based on the X-User-Id header.
+    /// Middleware for setting user context based on the TM-User-Id header.
     /// </summary>
     public class UserContextMiddleware
     {
@@ -17,7 +17,7 @@ namespace TaskMaster.Api.Middlewares
         }
 
         /// <summary>
-        /// Sets the user context based on the X-User-Id header and proceeds to the next middleware in the pipeline.
+        /// Sets the user context based on the TM-User-Id header and proceeds to the next middleware in the pipeline.
         /// </summary>
         /// <param name="context">The HttpContext for the current request.</param>
         /// <param name="userContext">The IUserContext instance to set the user ID in.</param>
