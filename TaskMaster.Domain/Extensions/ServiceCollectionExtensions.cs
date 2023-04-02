@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Reflection;
 using TaskMaster.Application.Abstractions;
-using TaskMaster.Application.MediatR.Base;
 using TaskMaster.Application.MediatR.TaskLists.Commands;
 using TaskMaster.Application.Services;
 
@@ -21,8 +18,8 @@ namespace TaskMaster.Application.Extensions
         {
             var executingAssembly = Assembly.GetExecutingAssembly();
 
-            services.AddScoped<IValidator<CreateTaskListCommand>, CreateTaskListCommandValidator>();
             services.AddScoped<IUserContext, UserContext>();
+            services.AddValidatorsFromAssembly(executingAssembly);
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(executingAssembly));
             services.AddAutoMapper(executingAssembly);
 

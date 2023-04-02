@@ -16,7 +16,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
 
         protected override async Task<Unit> HandleAsync(DeleteTaskListCommand request, CancellationToken cancellationToken = default)
         {
-            var currentTaskList = await UnitOfWork.GetRepository<IQueryRepository<TaskList>>()
+            var currentTaskList = await UnitOfWork.Repository<IQueryRepository<TaskList>>()
                 .FirstOrDefaultAsync(new TaskListByIdSpecification(request.Id), cancellationToken);
 
             if (currentTaskList == null)
@@ -29,7 +29,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
                 throw new NotOwnedByYouException();
             }
 
-            UnitOfWork.GetRepository<ICommandRepository<TaskList>>().Remove(currentTaskList);
+            UnitOfWork.Repository<ICommandRepository<TaskList>>().Remove(currentTaskList);
             await UnitOfWork.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

@@ -15,8 +15,9 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
         protected override async Task<TaskListVm> HandleAsync(GetSingleTaskListQuery request, CancellationToken cancellationToken = default)
         {
             var result = await UnitOfWork
-                    .GetRepository<IProjectionQueryRepository<TaskList>>()
-                    .FirstOrDefaultAsync<TaskListByIdSpecification, TaskListVm>(new (request.Id, new() { IncludeAssignees = true }), cancellationToken);
+                    .Repository<IProjectionQueryRepository<TaskList>>()
+                    .FirstOrDefaultAsync<TaskListByIdSpecification, TaskListVm>(new(request.Id, new(CurrentUserId) { IncludeAssignees = true }), 
+                        cancellationToken);
 
             if (result == null)
             {

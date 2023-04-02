@@ -17,7 +17,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
 
             taskList.AuthorId = CurrentUserId;
 
-            var id =  await UnitOfWork.GetRepository<ICommandRepository<TaskList>>()
+            var id =  await UnitOfWork.Repository<ICommandRepository<TaskList>>()
                 .AddAsync(taskList, cancellationToken);
 
             await UnitOfWork.SaveChangesAsync(cancellationToken);

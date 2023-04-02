@@ -25,7 +25,7 @@ namespace TaskMaster.Infrastructure.Specifications.TaskLists
                 Query.Include(tl => tl.Assignees).ThenInclude(a => a.Assignee);
             }
 
-            Query.Where(query => query.AuthorId == filter.AuthorId || query.Assignees.Any(a => a.AssigneeId == filter.AuthorId));
+            Query.Where(query => query.AuthorId == filter.CurrentUserId || query.Assignees.Any(a => a.AssigneeId == filter.CurrentUserId));
         }
     }
 }

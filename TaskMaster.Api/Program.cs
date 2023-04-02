@@ -10,10 +10,7 @@ using TaskMaster.Swagger.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-
-builder.Services
+builder.Services.AddEndpointsApiExplorer()
  .AddSwaggerModule()
  .RegisterInfrastructure(builder.Configuration)
  .RegisterApplicationServices();
@@ -26,10 +23,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerModule();
 }
 
-app.UseHttpsRedirection();
-app.UseApplicationMiddlewares();
-app.UseExceptionMiddleware();
-app.MapControllers();
+app.UseHttpsRedirection()
+    .UseApplicationMiddlewares()
+    .UseExceptionMiddleware();
 
 app.MapGet("/taskList/{id}", async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>
 {
@@ -39,7 +35,7 @@ app.MapGet("/taskList/{id}", async ([FromRoute] Guid id, [FromServices] IMediato
 .WithName("GetSingleTaskList")
 .WithOpenApi();
 
-app.MapPost("/taskList", async ([FromBody] CreateTaskListCommand request, 
+app.MapPost("/taskList", async ([FromBody] CreateTaskListCommand request,
     [FromServices] IMediator mediator, IValidator<CreateTaskListCommand> validator) =>
 {
     var validationResult = await validator.ValidateAsync(request);
@@ -52,6 +48,23 @@ app.MapPost("/taskList", async ([FromBody] CreateTaskListCommand request,
     return Results.Ok(taskList);
 })
 .WithName("CreateTaskList")
+.WithOpenApi();
+
+app.MapPut("/taskList/{id}", async ([FromRoute] Guid id, [FromBody] UpdateTaskListCommand request,
+    [FromServices] IMediator mediator, IValidator<UpdateTaskListCommand> validator) =>
+{
+    var validationResult = await validator.ValidateAsync(request);
+    if (!validationResult.IsValid)
+    {
+        return Results.ValidationProblem(validationResult.ToDictionary());
+    }
+
+    request.Id = id;
+
+    var taskList = await mediator.Send(request);
+    return Results.Ok(taskList);
+})
+.WithName("UpdateTaskList")
 .WithOpenApi();
 
 app.MapDelete("/taskList/{id}", async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>

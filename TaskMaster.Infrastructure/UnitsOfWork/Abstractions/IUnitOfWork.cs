@@ -12,7 +12,7 @@ namespace TaskMaster.Infrastructure.UnitsOfWork
         /// </summary>
         /// <typeparam name="TRepository">The type of the repository to get.</typeparam>
         /// <returns>An instance of the specified repository type.</returns>
-        TRepository GetRepository<TRepository>() where TRepository : IRepository;
+        TRepository Repository<TRepository>() where TRepository : IRepository;
 
         /// <summary>
         /// Saves all changes made in this unit of work to the underlying data store.

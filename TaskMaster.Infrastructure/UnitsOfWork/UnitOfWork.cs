@@ -16,7 +16,7 @@ namespace TaskMaster.Infrastructure.UnitsOfWork
             _repositoryFactory = repositoryFactory;
         }
 
-        public TRepository GetRepository<TRepository>() where TRepository : IRepository =>
+        public TRepository Repository<TRepository>() where TRepository : IRepository =>
             _repositoryFactory.GetRepository<TRepository>();
 
         public async Task SaveChangesAsync(CancellationToken cancellationToken = default)

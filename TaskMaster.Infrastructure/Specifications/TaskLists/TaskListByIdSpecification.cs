@@ -28,9 +28,9 @@ namespace TaskMaster.Infrastructure.Specifications.TaskLists
                 Query.Include(tl => tl.Assignees).ThenInclude(a => a.Assignee);
             }
 
-            if (filter.AuthorId.HasValue)
+            if (filter.CurrentUserId.HasValue)
             {
-                Query.Where(tl => tl.AuthorId == filter.AuthorId);
+                Query.Where(tl => tl.AuthorId == filter.CurrentUserId || tl.Assignees.Any(a => a.AssigneeId == filter.CurrentUserId));
             }
         }
 

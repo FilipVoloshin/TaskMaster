@@ -12,6 +12,7 @@ namespace TaskMaster.Application.Profiles
             CreateMap<TaskList, TaskListVm>().ReverseMap();
             CreateMap<CreateTaskListCommand, TaskList>()
                 .ForMember(dest => dest.CreatedAtUtc, opt => opt.MapFrom(src => DateTime.UtcNow));
+            CreateMap<UpdateTaskListCommand, TaskList>().ReverseMap();
         }
     }
 }

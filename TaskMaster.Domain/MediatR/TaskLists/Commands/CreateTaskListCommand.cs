@@ -12,7 +12,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Commands
             RuleFor(x => x.Name)
                 .NotNull()
                 .NotEmpty()
-                .MaximumLength(255).WithMessage("Name field can't be greated than 255 symbols.");
+                .MaximumLength(255);
         }
     }
 }
