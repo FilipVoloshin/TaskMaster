@@ -16,6 +16,8 @@ namespace TaskMaster.Infrastructure.Specifications.TaskLists
         /// <param name="filter">The TaskList filter containing additional conditions and data to include.</param>
         public TaskListByIdSpecification(Guid id, TaskListFilter filter)
         {
+            Query.Where(tl => tl.Id == id);
+
             if (filter.IncludeAuthor)
             {
                 Query.Include(tl => tl.Author);
@@ -26,8 +28,15 @@ namespace TaskMaster.Infrastructure.Specifications.TaskLists
                 Query.Include(tl => tl.Assignees).ThenInclude(a => a.Assignee);
             }
 
+            if (filter.AuthorId.HasValue)
+            {
+                Query.Where(tl => tl.AuthorId == filter.AuthorId);
+            }
+        }
+
+        public TaskListByIdSpecification(Guid id)
+        {
             Query.Where(tl => tl.Id == id);
-            Query.Where(tl => tl.AuthorId == filter.AuthorId);
         }
     }
 }

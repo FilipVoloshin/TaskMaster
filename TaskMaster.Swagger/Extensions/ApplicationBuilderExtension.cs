@@ -23,8 +23,8 @@ namespace TaskMaster.Swagger.Extensions
             app.UseSwaggerUI(config =>
             {
                 config.DisplayRequestDuration();
-                config.DefaultModelsExpandDepth(-1);
-                config.DocExpansion(DocExpansion.None);
+                //config.DefaultModelsExpandDepth(-1);
+                //config.DocExpansion(DocExpansion.None);
                 config.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
                 config.RoutePrefix = "swagger";
             });

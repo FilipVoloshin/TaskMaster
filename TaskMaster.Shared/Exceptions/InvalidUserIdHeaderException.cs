@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TaskMaster.Shared.Exceptions
+﻿namespace TaskMaster.Shared.Exceptions
 {
     /// <summary>
     /// Represents an error that occurs when the provided User Id header is not in a valid format.

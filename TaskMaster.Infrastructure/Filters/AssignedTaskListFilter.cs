@@ -1,8 +1,7 @@
-﻿using TaskMaster.Infrastructure.Filters.Abstractions;
-
+﻿
 namespace TaskMaster.Infrastructure.Filters
 {
-    public record AssignedTaskListFilter(Guid AuthorId) : IAuthorableFilter
+    public record AssignedTaskListFilter(Guid AuthorId)
     {
         public bool IncludeAssignee { get; set; }
         public bool IncludeAuthor { get; set; }

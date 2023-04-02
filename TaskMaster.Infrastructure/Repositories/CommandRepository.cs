@@ -16,9 +16,16 @@ namespace TaskMaster.Infrastructure.Repositories
 
         }
 
-        public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+        public async Task<Guid> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
         {
+            if (entity.Id == Guid.Empty)
+            {
+                entity.Id = Guid.NewGuid();
+            }
+
             await DbSet.AddAsync(entity, cancellationToken);
+
+            return entity.Id;
         }
 
         public void Attach(TEntity entity)

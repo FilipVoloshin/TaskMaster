@@ -14,7 +14,9 @@ namespace TaskMaster.Infrastructure.Repositories.Abstractions
         /// </summary>
         /// <param name="entity">The entity to add.</param>
         /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
-        Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
+        /// <returns>Recently created entities identifier</returns>
+        
+        Task<Guid> AddAsync(TEntity entity, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Updates an existing entity with the provided updated entity values.

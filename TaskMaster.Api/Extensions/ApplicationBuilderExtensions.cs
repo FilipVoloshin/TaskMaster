@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using System.Net.Mime;
+using System.Text.Json;
 using TaskMaster.Api.Middlewares;
 using TaskMaster.Api.Models;
 using TaskMaster.Shared.Exceptions;
@@ -41,20 +43,28 @@ namespace TaskMaster.Api.Extensions
                 {
                     ApplicationException => (int)HttpStatusCode.BadRequest,
                     NotFoundException => (int)HttpStatusCode.NotFound,
-                    InvalidUserIdHeaderException or
-                    MissingUserIdHeaderException => (int)HttpStatusCode.Forbidden,
+                    InvalidUserIdHeaderException or MissingUserIdHeaderException or NotOwnedByYouException => (int)HttpStatusCode.Forbidden,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 
-                context.Response.ContentType = MediaTypeNames.Application.Json;
                 var errorMessage = error?.Message ?? "Error message is missing";
+                await WriteErrorResponseAsync(context, errorMessage, error);
+            }));
+
+            return app;
+
+            #region Local functions
+
+            static async Task WriteErrorResponseAsync(HttpContext context, string errorMessage, Exception? error)
+            {
+                context.Response.ContentType = MediaTypeNames.Application.Json;
                 await context.Response.WriteAsJsonAsync(new ErrorResponse(errorMessage, context.Response.StatusCode)
                 {
                     StackTrace = error?.StackTrace ?? "Stack trace is missing"
                 });
-            }));
+            }
 
-            return app;
+            #endregion
         }
     }
 }

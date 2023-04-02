@@ -9,6 +9,7 @@
         /// Initializes a new instance of the <see cref="NotFoundException"/> class.
         /// </summary>
         public NotFoundException()
+            :base("The requested resource could not be found")
         {
         }
 

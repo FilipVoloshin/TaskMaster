@@ -5,7 +5,7 @@ using TaskMaster.Application.Abstractions;
 using TaskMaster.Application.Services;
 using TaskMaster.Infrastructure.UnitsOfWork;
 
-namespace TaskMaster.Application.MediatR
+namespace TaskMaster.Application.MediatR.Base
 {
     /// <summary>
     /// Represents an abstract base class for handling requests using the MediatR library.

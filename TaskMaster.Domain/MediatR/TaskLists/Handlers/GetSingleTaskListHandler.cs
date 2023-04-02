@@ -1,4 +1,5 @@
-﻿using TaskMaster.Application.MediatR.TaskLists.Queries;
+﻿using TaskMaster.Application.MediatR.Base;
+using TaskMaster.Application.MediatR.TaskLists.Queries;
 using TaskMaster.Application.ViewModels;
 using TaskMaster.Infrastructure.Entities;
 using TaskMaster.Infrastructure.Repositories.Abstractions;
@@ -15,10 +16,8 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
         {
             var result = await UnitOfWork
                     .GetRepository<IProjectionQueryRepository<TaskList>>()
-                    .FirstOrDefaultAsync<TaskListByIdSpecification, TaskListVm>(new (request.Id, new(CurrentUserId)), cancellationToken);
+                    .FirstOrDefaultAsync<TaskListByIdSpecification, TaskListVm>(new (request.Id, new() { IncludeAssignees = true }), cancellationToken);
 
-            // TODO: think about SingleAsync + Sequence contains no elements
-            // TODO2: thnk about Extension method, which will provide chain after Repository method and will check and throw exception, if needed
             if (result == null)
             {
                 throw new NotFoundException();

@@ -26,5 +26,12 @@
             /// </summary>
             public const string DateTimeType = "timestamp with time zone";
         }
+
+        public static class Pagination
+        {
+            public const int DefaultPageNumber = 1;
+            public const int DefaultPageSize = 10;
+
+        }
     }
 }
