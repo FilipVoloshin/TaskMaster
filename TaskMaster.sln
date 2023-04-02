@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskMaster.Api", "TaskMaste
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskMaster.Infrastructure", "TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj", "{062CCA95-DF89-4FF2-96E4-EBC2B0E43DF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskMaster.Domain", "TaskMaster.Domain\TaskMaster.Domain.csproj", "{2E463110-1DE0-4241-B18F-B42FEB28EB2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskMaster.Application", "TaskMaster.Domain\TaskMaster.Application.csproj", "{2E463110-1DE0-4241-B18F-B42FEB28EB2C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{970A1D31-234E-4040-9319-FE0B85689BF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Shared", "TaskMaster.Shared\TaskMaster.Shared.csproj", "{BCD0714F-4DD9-4878-AD32-4CC9DEB9B1EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskMaster.Shared", "TaskMaster.Shared\TaskMaster.Shared.csproj", "{BCD0714F-4DD9-4878-AD32-4CC9DEB9B1EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskMaster.Swagger", "TaskMaster.Swagger\TaskMaster.Swagger.csproj", "{B80AB3BF-686C-49DF-A452-DF0D12917583}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskMaster.Swagger", "TaskMaster.Swagger\TaskMaster.Swagger.csproj", "{B80AB3BF-686C-49DF-A452-DF0D12917583}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

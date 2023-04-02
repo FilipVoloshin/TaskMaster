@@ -19,7 +19,6 @@ namespace TaskMaster.Api.Extensions
         /// <returns>The application builder instance.</returns>
         internal static IApplicationBuilder UseApplicationMiddlewares(this IApplicationBuilder app)
         {
-            app.UseExceptionMiddleware();
             app.UseMiddleware<UserContextMiddleware>();
 
             return app;
@@ -41,8 +40,8 @@ namespace TaskMaster.Api.Extensions
                 context.Response.StatusCode = error switch
                 {
                     ApplicationException => (int)HttpStatusCode.BadRequest,
-                    KeyNotFoundException => (int)HttpStatusCode.NotFound,
-                    InvalidUserIdHeaderException or 
+                    NotFoundException => (int)HttpStatusCode.NotFound,
+                    InvalidUserIdHeaderException or
                     MissingUserIdHeaderException => (int)HttpStatusCode.Forbidden,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };

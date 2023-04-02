@@ -1,4 +1,4 @@
-﻿namespace TaskMaster.Domain.Abstractions
+﻿namespace TaskMaster.Application.Abstractions
 {
     /// <summary>
     /// Defines the contract for managing user-related operations.

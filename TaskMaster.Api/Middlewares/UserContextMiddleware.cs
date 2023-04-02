@@ -1,4 +1,4 @@
-﻿using TaskMaster.Domain.Abstractions;
+﻿using TaskMaster.Application.Abstractions;
 using TaskMaster.Shared.Exceptions;
 using static TaskMaster.Shared.Constants;
 

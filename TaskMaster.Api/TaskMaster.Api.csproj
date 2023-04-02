@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskMaster.Domain\TaskMaster.Domain.csproj" />
+    <ProjectReference Include="..\TaskMaster.Domain\TaskMaster.Application.csproj" />
     <ProjectReference Include="..\TaskMaster.Swagger\TaskMaster.Swagger.csproj" />
   </ItemGroup>
 

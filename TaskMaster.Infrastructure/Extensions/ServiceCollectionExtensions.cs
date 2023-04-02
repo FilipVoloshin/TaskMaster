@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using TaskMaster.Infrastructure.Repositories.Abstractions;
 using TaskMaster.Infrastructure.Repositories;
 using TaskMaster.Infrastructure.UnitsOfWork;
+using Ardalis.Specification.EntityFrameworkCore;
+using Ardalis.Specification;
 
 namespace TaskMaster.Infrastructure.Extensions
 {
@@ -29,11 +31,14 @@ namespace TaskMaster.Infrastructure.Extensions
         {
             var connectionString = configuration.GetConnectionString("PostgreSQL");
             services.AddDbContextPool<TaskMasterDbContext>(options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
-            
+            services.AddAutoMapper(typeof(BaseRepository<>).Assembly);
+
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IRepositoryFactory, RepositoryFactory>();
             services.AddScoped(typeof(ICommandRepository<>), typeof(CommandRepository<>));
             services.AddScoped(typeof(IQueryRepository<>), typeof(QueryRepository<>));
             services.AddScoped(typeof(IProjectionQueryRepository<>), typeof(ProjectionQueryRepository<>));
+            services.AddScoped<ISpecificationEvaluator>(sp => new SpecificationEvaluator(true));
 
             services.AddScoped<ISeeder, DbSeeder>();
 

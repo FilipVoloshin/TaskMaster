@@ -1,5 +1,5 @@
-﻿using TaskMaster.Domain.Abstractions;
-using TaskMaster.Domain.Services;
+﻿using TaskMaster.Application.Abstractions;
+using TaskMaster.Application.Services;
 
 namespace TaskMaster.Api.Extensions
 {

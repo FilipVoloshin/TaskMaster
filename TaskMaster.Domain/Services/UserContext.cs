@@ -1,6 +1,6 @@
-﻿using TaskMaster.Domain.Abstractions;
+﻿using TaskMaster.Application.Abstractions;
 
-namespace TaskMaster.Domain.Services
+namespace TaskMaster.Application.Services
 {
     /// <summary>
     /// Provides an implementation of IUserContext for storing and accessing user-related information.

@@ -1,4 +1,9 @@
+using MediatR;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using TaskMaster.Api.Extensions;
+using TaskMaster.Application.Extensions;
+using TaskMaster.Application.MediatR.TaskLists.Queries;
 using TaskMaster.Infrastructure.Extensions;
 using TaskMaster.Swagger.Extensions;
 
@@ -7,44 +12,27 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer()
                 .AddSwaggerModule()
                 .RegisterInfrastructure(builder.Configuration)
-                .RegisterApplicationServices();
-
-
+                .RegisterApplicationServices()
+                .RegisterMediatR();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    await app.Services.SeedDatabaseAsync();
+    //await app.Services.SeedDatabaseAsync();
     app.UseSwaggerModule();
 }
 
-app.UseHttpsRedirection();
-app.UseApplicationMiddlewares();
+app.UseHttpsRedirection()
+   .UseApplicationMiddlewares()
+   .UseExceptionMiddleware();
 
-var summaries = new[]
+app.MapGet("/taskList/{id}", async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    var taskList = await mediator.Send(new GetSingleTaskListQuery(id));
+    return Results.Ok(taskList);
 })
-.WithName("GetWeatherForecast")
+.WithName("GetSingleTaskList")
 .WithOpenApi();
 
 app.Run();
-
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
