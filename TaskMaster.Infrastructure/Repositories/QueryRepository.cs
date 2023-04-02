@@ -3,7 +3,7 @@ using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TaskMaster.Infrastructure.Contexts;
 using TaskMaster.Infrastructure.Entities.Base;
-using TaskMaster.Infrastructure.Repositories.Abstracts;
+using TaskMaster.Infrastructure.Repositories.Abstractions;
 
 namespace TaskMaster.Infrastructure.Repositories
 {
@@ -11,10 +11,10 @@ namespace TaskMaster.Infrastructure.Repositories
     /// A read-only repository class for TEntity that provides basic read operations.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity being managed by the repository.</typeparam>
-    public class ReadOnlyRepository<TEntity> : BaseRepository<TEntity>, IReadOnlyRepository<TEntity> 
+    public class QueryRepository<TEntity> : BaseRepository<TEntity>, IQueryRepository<TEntity> 
         where TEntity : BaseEntity
     {
-        public ReadOnlyRepository(ReadonlyTaskMasterDbContext dbContext,
+        public QueryRepository(TaskMasterDbContext dbContext,
             ISpecificationEvaluator specificationEvaluator)
             : base(dbContext, specificationEvaluator) { }
 

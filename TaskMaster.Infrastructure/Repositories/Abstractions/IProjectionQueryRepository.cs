@@ -1,7 +1,7 @@
 ﻿using Ardalis.Specification;
 using TaskMaster.Infrastructure.Entities.Base;
 
-namespace TaskMaster.Infrastructure.Repositories.Abstracts
+namespace TaskMaster.Infrastructure.Repositories.Abstractions
 {
 
     /// <summary>
@@ -9,7 +9,8 @@ namespace TaskMaster.Infrastructure.Repositories.Abstracts
     /// specified projections based on the given specifications.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity being managed by the repository.</typeparam>
-    public interface IProjectionRepository<TEntity> where TEntity: BaseEntity
+    public interface IProjectionQueryRepository<TEntity> : IRepository
+        where TEntity : BaseEntity
     {
         /// <summary>
         /// Retrieves the first entity that matches the given specification and projects it to the specified type.
@@ -20,7 +21,7 @@ namespace TaskMaster.Infrastructure.Repositories.Abstracts
         /// <param name="specification">The specification to use for filtering and fetching the entity.</param>
         /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the projected entity, or null if no entity matches the specification.</returns>
-        Task<TProjection?> FirstOrDefaultAsync<TSpec,TProjection>(TSpec specification, CancellationToken cancellationToken = default)
+        Task<TProjection?> FirstOrDefaultAsync<TSpec, TProjection>(TSpec specification, CancellationToken cancellationToken = default)
             where TSpec : ISpecification<TEntity>, ISingleResultSpecification;
 
         /// <summary>

@@ -4,7 +4,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using TaskMaster.Infrastructure.Contexts;
 using TaskMaster.Infrastructure.Entities.Base;
-using TaskMaster.Infrastructure.Repositories.Abstracts;
+using TaskMaster.Infrastructure.Repositories.Abstractions;
 
 namespace TaskMaster.Infrastructure.Repositories
 {
@@ -12,12 +12,12 @@ namespace TaskMaster.Infrastructure.Repositories
     /// A repository class for TEntity that supports projection operations using AutoMapper.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity being managed by the repository.</typeparam>
-    public class ProjectionRepository<TEntity> : BaseRepository<TEntity>, IProjectionRepository<TEntity>
+    public class ProjectionQueryRepository<TEntity> : BaseRepository<TEntity>, IProjectionQueryRepository<TEntity>
         where TEntity : BaseEntity
     {
         private readonly IMapper _mapper;
 
-        public ProjectionRepository(ReadonlyTaskMasterDbContext context,
+        public ProjectionQueryRepository(TaskMasterDbContext context,
             ISpecificationEvaluator evaluator,
             IMapper mapper)
             : base(context, evaluator)

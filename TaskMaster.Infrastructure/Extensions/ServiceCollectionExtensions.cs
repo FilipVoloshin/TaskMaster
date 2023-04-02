@@ -5,6 +5,9 @@ using TaskMaster.Infrastructure.Contexts;
 using TaskMaster.Infrastructure.Seeder.Abstractions;
 using TaskMaster.Infrastructure.Seeder;
 using Microsoft.Extensions.Logging.Abstractions;
+using TaskMaster.Infrastructure.Repositories.Abstractions;
+using TaskMaster.Infrastructure.Repositories;
+using TaskMaster.Infrastructure.UnitsOfWork;
 
 namespace TaskMaster.Infrastructure.Extensions
 {
@@ -25,7 +28,13 @@ namespace TaskMaster.Infrastructure.Extensions
         public static IServiceCollection RegisterInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = configuration.GetConnectionString("PostgreSQL");
-            services.AddDbContext<ReadonlyTaskMasterDbContext>(options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+            services.AddDbContextPool<TaskMasterDbContext>(options => options.UseNpgsql(connectionString).UseSnakeCaseNamingConvention());
+            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped(typeof(ICommandRepository<>), typeof(CommandRepository<>));
+            services.AddScoped(typeof(IQueryRepository<>), typeof(QueryRepository<>));
+            services.AddScoped(typeof(IProjectionQueryRepository<>), typeof(ProjectionQueryRepository<>));
+
             services.AddScoped<ISeeder, DbSeeder>();
 
             return services;
@@ -34,7 +43,7 @@ namespace TaskMaster.Infrastructure.Extensions
         public static async Task SeedDatabaseAsync(this IServiceProvider serviceProvider, CancellationToken cancellationToken = default)
         {
             using var scope = serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ReadonlyTaskMasterDbContext>();
+            var dbContext = scope.ServiceProvider.GetRequiredService<TaskMasterDbContext>();
             await new DbSeeder(dbContext, NullLogger<DbSeeder>.Instance).SeedAsync(cancellationToken);
         }
 

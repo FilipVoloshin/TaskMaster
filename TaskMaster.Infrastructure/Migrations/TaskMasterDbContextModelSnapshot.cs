@@ -10,7 +10,7 @@ using TaskMaster.Infrastructure.Contexts;
 
 namespace TaskMaster.Infrastructure.Migrations
 {
-    [DbContext(typeof(ReadonlyTaskMasterDbContext))]
+    [DbContext(typeof(TaskMasterDbContext))]
     partial class TaskMasterDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

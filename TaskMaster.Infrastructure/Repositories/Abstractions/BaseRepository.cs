@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TaskMaster.Infrastructure.Entities.Base;
 
-namespace TaskMaster.Infrastructure.Repositories.Abstracts
+namespace TaskMaster.Infrastructure.Repositories.Abstractions
 {
     /// <summary>
     /// The BaseRepository is an abstract class that provides the core functionality for working with the

@@ -11,7 +11,7 @@ using TaskMaster.Infrastructure.Contexts;
 
 namespace TaskMaster.Infrastructure.Migrations
 {
-    [DbContext(typeof(ReadonlyTaskMasterDbContext))]
+    [DbContext(typeof(TaskMasterDbContext))]
     [Migration("20230401194740_ChangedUserIdToAssigneeIdInAssignedTaskListTable")]
     partial class ChangedUserIdToAssigneeIdInAssignedTaskListTable
     {

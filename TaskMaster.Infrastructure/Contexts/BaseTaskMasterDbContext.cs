@@ -13,7 +13,7 @@ namespace TaskMaster.Infrastructure.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ReadonlyTaskMasterDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskMasterDbContext).Assembly);
         }
 
     }
