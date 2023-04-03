@@ -57,12 +57,11 @@ namespace TaskMaster.Infrastructure.Repositories.Abstractions
         Task<IEnumerable<TEntity>> GetAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);
 
         /// <summary>
-        /// Retrieves a collection of TResult objects based on the provided specification.
+        /// Retrieves a List of TEntity objects based on the provided specification.
         /// </summary>
-        /// <typeparam name="TResult">The type of the result object to be returned.</typeparam>
         /// <param name="specification">The specification to apply to the query.</param>
         /// <param name="cancellationToken">A token to cancel the operation.</param>
-        /// <returns>A task representing an asynchronous operation, with the result being an enumerable of TResult objects.</returns>
-        Task<IEnumerable<TResult?>> GetAsync<TResult>(ISpecification<TEntity, TResult?> specification, CancellationToken cancellationToken = default);
+        /// <returns>A task representing an asynchronous operation, with the result being a list of TEntity objects.</returns>
+        Task<List<TEntity>> GetListAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default);
     }
 }

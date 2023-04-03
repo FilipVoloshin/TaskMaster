@@ -36,8 +36,9 @@ namespace TaskMaster.Infrastructure.Specifications.TaskLists
             {
                 Query.Skip((filter.Pagination.PageNumber - 1) * filter.Pagination.PageSize)
                     .Take(filter.Pagination.PageSize);
-
             }
+
+            Query.OrderByDescending(a => a.CreatedAtUtc);
         }
     }
 }

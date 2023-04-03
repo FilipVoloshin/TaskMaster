@@ -11,7 +11,7 @@ namespace TaskMaster.Infrastructure.Repositories
     /// A read-only repository class for TEntity that provides basic read operations.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity being managed by the repository.</typeparam>
-    public class QueryRepository<TEntity> : BaseRepository<TEntity>, IQueryRepository<TEntity> 
+    public class QueryRepository<TEntity> : BaseRepository<TEntity>, IQueryRepository<TEntity>
         where TEntity : BaseEntity
     {
         public QueryRepository(TaskMasterDbContext dbContext,
@@ -35,20 +35,12 @@ namespace TaskMaster.Infrastructure.Repositories
 
         public async Task<IEnumerable<TEntity>> GetAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
         {
-            var queryResult = await ApplySpecification(specification).ToArrayAsync(cancellationToken);
-
-            return specification.PostProcessingAction is not null
-                ? specification.PostProcessingAction(queryResult)
-                : queryResult;
+            return await ApplySpecification(specification).ToArrayAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<TResult?>> GetAsync<TResult>(ISpecification<TEntity, TResult?> specification, CancellationToken cancellationToken = default)
+        public async Task<List<TEntity>> GetListAsync(ISpecification<TEntity> specification, CancellationToken cancellationToken = default)
         {
-            var queryResult = await ApplySpecification(specification).ToListAsync(cancellationToken);
-
-            return specification.PostProcessingAction is not null
-                ? specification.PostProcessingAction(queryResult)
-                : queryResult;
+            return await ApplySpecification(specification).ToListAsync(cancellationToken);
         }
     }
 }

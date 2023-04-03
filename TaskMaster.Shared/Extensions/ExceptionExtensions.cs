@@ -52,6 +52,27 @@ namespace TaskMaster.Shared.Extensions
         }
 
         /// <summary>
+        /// Throws an exception of the specified type if the result of the task is null or empty.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the elements in the collection.</typeparam>
+        /// <typeparam name="TException">The type of the exception to throw.</typeparam>
+        /// <param name="task">The task to check for null or empty result.</param>
+        /// <returns>The result of the task.</returns>
+        /// <exception cref="TException">Thrown when the result of the task is null or empty.</exception>
+        public static async Task<List<TResult>> ThrowIfNullOrEmptyAsync<TResult, TException>(this Task<List<TResult>> task)
+            where TException : Exception, new()
+        {
+            var result = await task;
+
+            if (result == null || result.Count == 0)
+            {
+                throw Activator.CreateInstance<TException>();
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// Throws an instance of the specified exception if the task's result is not null.
         /// </summary>
         /// <typeparam name="TResult">The type of the task's result.</typeparam>

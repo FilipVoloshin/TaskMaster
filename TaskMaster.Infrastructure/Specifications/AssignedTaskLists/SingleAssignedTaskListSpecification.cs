@@ -52,7 +52,7 @@ namespace TaskMaster.Infrastructure.Specifications.AssignedTaskLists
 
             if (filter.IncludeTaskList)
             {
-                Query.Include(atl => atl.TaskList);
+                Query.Include(atl => atl.TaskList).ThenInclude(atl => atl.Assignees);
 
             }
 
