@@ -17,15 +17,27 @@ namespace TaskMaster.Infrastructure.Specifications.TaskLists
         {
             if (filter.IncludeAuthor)
             {
-                Query.Include(tl => tl.Author);
+                Query.Include(query => query.Author);
             }
 
             if (filter.IncludeAssignees)
             {
-                Query.Include(tl => tl.Assignees).ThenInclude(a => a.Assignee);
+                Query.Include(query => query.Assignees).ThenInclude(a => a.Assignee);
             }
 
             Query.Where(query => query.AuthorId == filter.CurrentUserId || query.Assignees.Any(a => a.AssigneeId == filter.CurrentUserId));
+
+            if (filter.AsNoTracking)
+            {
+                Query.AsNoTracking();
+            }
+
+            if (filter.Pagination is not null)
+            {
+                Query.Skip((filter.Pagination.PageNumber - 1) * filter.Pagination.PageSize)
+                    .Take(filter.Pagination.PageSize);
+
+            }
         }
     }
 }

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TaskMaster.Application.Abstractions;
-using TaskMaster.Application.MediatR.TaskLists.Commands;
 using TaskMaster.Application.Services;
 
 namespace TaskMaster.Application.Extensions

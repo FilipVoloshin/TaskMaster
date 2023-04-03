@@ -27,6 +27,21 @@ app.UseHttpsRedirection()
     .UseApplicationMiddlewares()
     .UseExceptionMiddleware();
 
+app.MapGet("/taskList", async ([AsParameters] GetTaskListsQuery query,
+    [FromServices] IMediator mediator, IValidator<GetTaskListsQuery> validator) =>
+{
+    var validationResult = await validator.ValidateAsync(query);
+    if (!validationResult.IsValid)
+    {
+        return Results.ValidationProblem(validationResult.ToDictionary());
+    }
+
+    var taskLists = await mediator.Send(query);
+    return Results.Ok(taskLists);
+})
+.WithName("GetTaskLists")
+.WithOpenApi();
+
 app.MapGet("/taskList/{id}", async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>
 {
     var taskList = await mediator.Send(new GetSingleTaskListQuery(id));

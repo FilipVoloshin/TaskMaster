@@ -4,5 +4,7 @@
     {
         public bool IncludeAssignees { get; init; }
         public bool IncludeAuthor { get; init; }
+        public bool AsNoTracking { get; init; }
+        public PaginationFilter? Pagination { get; init; }
     }
 }

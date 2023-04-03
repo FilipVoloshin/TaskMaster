@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="MediatR\AssignedTaskLists\**" />
+    <EmbeddedResource Remove="MediatR\AssignedTaskLists\**" />
+    <None Remove="MediatR\AssignedTaskLists\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
     <PackageReference Include="MediatR" Version="12.0.1" />
   </ItemGroup>
@@ -14,13 +20,6 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskMaster.Infrastructure\TaskMaster.Infrastructure.csproj" />
     <ProjectReference Include="..\TaskMaster.Shared\TaskMaster.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="MediatR\AssignedTaskLists\Commands\" />
-    <Folder Include="MediatR\AssignedTaskLists\Validations\" />
-    <Folder Include="MediatR\AssignedTaskLists\Handlers\" />
-    <Folder Include="MediatR\AssignedTaskLists\Queries\" />
   </ItemGroup>
 
 </Project>
