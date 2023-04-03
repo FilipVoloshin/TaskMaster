@@ -33,7 +33,7 @@ namespace TaskMaster.Application.MediatR.AssignedTaskLists.Handlers
             var id = await UnitOfWork.Repository<ICommandRepository<AssignedTaskList>>()
                 .AddAsync(assignedTaskList, cancellationToken);
 
-            await UnitOfWork.SaveChangesAsync(cancellationToken);
+            await UnitOfWork.CompleteAsync(cancellationToken);
 
             return id;
         }

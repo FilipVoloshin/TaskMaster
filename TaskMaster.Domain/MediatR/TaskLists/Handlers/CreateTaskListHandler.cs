@@ -20,7 +20,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
             var id =  await UnitOfWork.Repository<ICommandRepository<TaskList>>()
                 .AddAsync(taskList, cancellationToken);
 
-            await UnitOfWork.SaveChangesAsync(cancellationToken);
+            await UnitOfWork.CompleteAsync(cancellationToken);
 
             return id;
 

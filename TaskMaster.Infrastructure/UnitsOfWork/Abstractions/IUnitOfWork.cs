@@ -19,6 +19,6 @@ namespace TaskMaster.Infrastructure.UnitsOfWork
         /// </summary>
         /// <param name="cancellationToken">The token to monitor for cancellation requests.</param>
         /// <returns>A task representing the asynchronous save operation.</returns>
-        Task SaveChangesAsync(CancellationToken cancellationToken = default);
+        Task CompleteAsync(CancellationToken cancellationToken = default);
     }
 }

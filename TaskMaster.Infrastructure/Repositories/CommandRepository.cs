@@ -1,4 +1,5 @@
 ﻿using Ardalis.Specification;
+using Microsoft.EntityFrameworkCore;
 using TaskMaster.Infrastructure.Contexts;
 using TaskMaster.Infrastructure.Entities.Base;
 using TaskMaster.Infrastructure.Repositories.Abstractions;
@@ -8,8 +9,7 @@ namespace TaskMaster.Infrastructure.Repositories
     public class CommandRepository<TEntity> : BaseRepository<TEntity>, ICommandRepository<TEntity>
         where TEntity : BaseEntity
     {
-        // TODO: in future replace the QueryTaskMasterDbContext with CommandTraskMasterContext (to separete write and read operations)
-        public CommandRepository(TaskMasterDbContext context,
+        public CommandRepository(CommandTaskMasterDbContext context,
             ISpecificationEvaluator evaluator)
             : base(context, evaluator)
         {
@@ -41,6 +41,7 @@ namespace TaskMaster.Infrastructure.Repositories
         public void Update(TEntity entity, TEntity updatedEntity)
         {
             Context.Entry(entity).CurrentValues.SetValues(updatedEntity);
+            Context.Entry(entity).State = EntityState.Modified;
         }
     }
 }

@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using TaskMaster.Infrastructure.Entities;
 
 namespace TaskMaster.Infrastructure.Contexts
 {
-    public abstract class BaseTaskMasterDbContext: DbContext
+    public abstract class BaseTaskMasterDbContext : DbContext
     {
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<TaskList> TaskLists { get; set; } = null!;
@@ -13,7 +14,7 @@ namespace TaskMaster.Infrastructure.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(TaskMasterDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
     }

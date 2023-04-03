@@ -3,10 +3,7 @@ using MediatR;
 
 namespace TaskMaster.Application.MediatR.TaskLists.Commands
 {
-    public record UpdateTaskListCommand(string Name) : IRequest<Unit>
-    {
-        public Guid? Id { get; set; } = null;
-    }
+    public record UpdateTaskListCommand(Guid Id, string Name) : IRequest<Unit>;
 
     public class UpdateTaskListCommandValidator : AbstractValidator<UpdateTaskListCommand>
     {

@@ -17,10 +17,8 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
 
         protected override async Task<Unit> HandleAsync(UpdateTaskListCommand request, CancellationToken cancellationToken = default)
         {
-            ArgumentNullException.ThrowIfNull(request.Id, nameof(request.Id));
-
             var taskListWithAssignees = await UnitOfWork.Repository<IQueryRepository<TaskList>>()
-                .FirstOrDefaultAsync(new SingleTaskListSpecification(request.Id.Value, new() { IncludeAssignees = true }), cancellationToken)
+                .FirstOrDefaultAsync(new SingleTaskListSpecification(request.Id, new() { IncludeAssignees = true }), cancellationToken)
                 .ThrowIfNullAsync<TaskList?, NotFoundException>();
 
             if (taskListWithAssignees!.AuthorId != CurrentUserId &&
@@ -32,7 +30,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
             var updatedTaskList = Mapper.Map(request, taskListWithAssignees);
 
             UnitOfWork.Repository<ICommandRepository<TaskList>>().Update(taskListWithAssignees, updatedTaskList);
-            await UnitOfWork.SaveChangesAsync(cancellationToken);
+            await UnitOfWork.CompleteAsync(cancellationToken);
 
             return Unit.Value;
         }

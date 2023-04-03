@@ -17,7 +17,7 @@ namespace TaskMaster.Infrastructure.Repositories
     {
         private readonly IMapper _mapper;
 
-        public ProjectionQueryRepository(TaskMasterDbContext context,
+        public ProjectionQueryRepository(QueryTaskMasterDbContext context,
             ISpecificationEvaluator evaluator,
             IMapper mapper)
             : base(context, evaluator)

@@ -14,7 +14,7 @@ namespace TaskMaster.Infrastructure.Repositories
     public class QueryRepository<TEntity> : BaseRepository<TEntity>, IQueryRepository<TEntity>
         where TEntity : BaseEntity
     {
-        public QueryRepository(TaskMasterDbContext dbContext,
+        public QueryRepository(QueryTaskMasterDbContext dbContext,
             ISpecificationEvaluator specificationEvaluator)
             : base(dbContext, specificationEvaluator) { }
 

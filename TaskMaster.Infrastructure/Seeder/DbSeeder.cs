@@ -11,10 +11,10 @@ namespace TaskMaster.Infrastructure.Seeder
     /// </summary>
     internal class DbSeeder : ISeeder
     {
-        private readonly TaskMasterDbContext _dbContext;
+        private readonly CommandTaskMasterDbContext _dbContext;
         private readonly ILogger<DbSeeder> _logger;
 
-        public DbSeeder(TaskMasterDbContext dbContext, ILogger<DbSeeder> logger)
+        public DbSeeder(CommandTaskMasterDbContext dbContext, ILogger<DbSeeder> logger)
         {
             _dbContext = dbContext;
             _logger = logger;
@@ -33,7 +33,7 @@ namespace TaskMaster.Infrastructure.Seeder
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"An error occurred while seeding the database for {nameof(TaskMasterDbContext)}");
+                _logger.LogError(ex, $"An error occurred while seeding the database for {nameof(CommandTaskMasterDbContext)}");
             }
         }
 

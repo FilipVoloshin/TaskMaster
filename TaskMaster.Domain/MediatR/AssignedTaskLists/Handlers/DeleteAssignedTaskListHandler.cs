@@ -38,7 +38,7 @@ namespace TaskMaster.Application.MediatR.AssignedTaskLists.Handlers
             UnitOfWork.Repository<ICommandRepository<AssignedTaskList>>()
                 .Remove(assignedTaskList);
 
-            await UnitOfWork.SaveChangesAsync(cancellationToken);
+            await UnitOfWork.CompleteAsync(cancellationToken);
 
              return Unit.Value;
         }
