@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskMaster.Api.Extensions;
 using TaskMaster.Application.Extensions;
+using TaskMaster.Application.MediatR.AssignedTaskLists.Command;
 using TaskMaster.Application.MediatR.TaskLists.Commands;
 using TaskMaster.Application.MediatR.TaskLists.Queries;
 using TaskMaster.Infrastructure.Extensions;
@@ -27,6 +28,7 @@ app.UseHttpsRedirection()
     .UseApplicationMiddlewares()
     .UseExceptionMiddleware();
 
+#region Task List routes
 app.MapGet("/taskList", async ([AsParameters] GetTaskListsQuery query,
     [FromServices] IMediator mediator, IValidator<GetTaskListsQuery> validator) =>
 {
@@ -89,5 +91,25 @@ app.MapDelete("/taskList/{id}", async ([FromRoute] Guid id, [FromServices] IMedi
 })
 .WithName("DeleteTaskList")
 .WithOpenApi();
+#endregion
+
+#region Assigned Task list routes
+
+app.MapPost("/taskList/{taskListId}/assign/{assigneeId}", async ([AsParameters] CreateAssignedTaskListCommand request,
+    [FromServices] IMediator mediator, IValidator<CreateAssignedTaskListCommand> validator) =>
+{
+    var validationResult = await validator.ValidateAsync(request);
+    if (!validationResult.IsValid)
+    {
+        return Results.ValidationProblem(validationResult.ToDictionary());
+    }
+
+    var taskList = await mediator.Send(request);
+    return Results.Ok(taskList);
+})
+.WithName("CreateAssignedTaskList")
+.WithOpenApi();
+
+#endregion
 
 app.Run();

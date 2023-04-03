@@ -5,6 +5,7 @@ using TaskMaster.Infrastructure.Entities;
 using TaskMaster.Infrastructure.Repositories.Abstractions;
 using TaskMaster.Infrastructure.Specifications.TaskLists;
 using TaskMaster.Shared.Exceptions;
+using TaskMaster.Shared.Extensions;
 
 namespace TaskMaster.Application.MediatR.TaskLists.Handlers
 {
@@ -17,14 +18,10 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
         protected override async Task<Unit> HandleAsync(DeleteTaskListCommand request, CancellationToken cancellationToken = default)
         {
             var currentTaskList = await UnitOfWork.Repository<IQueryRepository<TaskList>>()
-                .FirstOrDefaultAsync(new TaskListByIdSpecification(request.Id), cancellationToken);
+                .FirstOrDefaultAsync(new SingleTaskListSpecification(request.Id), cancellationToken)
+                .ThrowIfNullAsync<TaskList?, NotFoundException>();
 
-            if (currentTaskList == null)
-            {
-                throw new NotFoundException();
-            }
-
-            if (currentTaskList.AuthorId != CurrentUserId)
+            if (currentTaskList!.AuthorId != CurrentUserId)
             {
                 throw new NotOwnedByYouException();
             }

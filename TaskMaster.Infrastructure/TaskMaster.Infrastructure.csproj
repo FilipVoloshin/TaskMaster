@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <Folder Include="Migrations\SQL\" />
-    <Folder Include="Specifications\AssignedTaskLists\" />
   </ItemGroup>
 
 </Project>

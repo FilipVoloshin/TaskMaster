@@ -5,6 +5,7 @@ using TaskMaster.Infrastructure.Entities;
 using TaskMaster.Infrastructure.Repositories.Abstractions;
 using TaskMaster.Infrastructure.Specifications.TaskLists;
 using TaskMaster.Shared.Exceptions;
+using TaskMaster.Shared.Extensions;
 
 namespace TaskMaster.Application.MediatR.TaskLists.Handlers
 {
@@ -16,15 +17,11 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
         {
             var result = await UnitOfWork
                     .Repository<IProjectionQueryRepository<TaskList>>()
-                    .FirstOrDefaultAsync<TaskListByIdSpecification, TaskListVm>(new(request.Id, new(CurrentUserId) { IncludeAssignees = true }), 
-                        cancellationToken);
+                    .FirstOrDefaultAsync<SingleTaskListSpecification, TaskListVm>(new(request.Id, new(CurrentUserId) { IncludeAssignees = true }),
+                        cancellationToken)
+                    .ThrowIfNullAsync<TaskListVm?, NotFoundException>();
 
-            if (result == null)
-            {
-                throw new NotFoundException();
-            }
-
-            return result;
+            return result!;
         }
     }
 }

@@ -25,12 +25,8 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
             });
 
             var pagedTaskLists = await UnitOfWork.Repository<IProjectionQueryRepository<TaskList>>()
-                .GetAsync<TaskListVm>(taskListsSpecification, cancellationToken);
-
-            if (pagedTaskLists.IsNullOrEmpty())
-            {
-                throw new NotFoundException();
-            }
+                .GetAsync<TaskListVm>(taskListsSpecification, cancellationToken)
+                .ThrowIfNullOrEmptyAsync<TaskListVm, NotFoundException>();
 
             return pagedTaskLists;
         }

@@ -1,8 +1,7 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Diagnostics;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Npgsql;
 using System.Net;
 using System.Net.Mime;
-using System.Text.Json;
 using TaskMaster.Api.Middlewares;
 using TaskMaster.Api.Models;
 using TaskMaster.Shared.Exceptions;
@@ -36,13 +35,18 @@ namespace TaskMaster.Api.Extensions
             app.UseExceptionHandler(a => a.Run(async context =>
             {
                 var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-
                 var error = exceptionHandlerPathFeature?.Error;
+
+                if (error?.InnerException is NpgsqlException npgsqlEx && npgsqlEx.SqlState == PostgresErrorCodes.UniqueViolation)
+                {
+                    error = new ResourceConflictException("A resource with the specified constraints already exists.");
+                }
 
                 context.Response.StatusCode = error switch
                 {
                     ApplicationException => (int)HttpStatusCode.BadRequest,
                     NotFoundException => (int)HttpStatusCode.NotFound,
+                    ResourceConflictException => (int)HttpStatusCode.Conflict,
                     InvalidUserIdHeaderException or MissingUserIdHeaderException or NotOwnedByYouException => (int)HttpStatusCode.Forbidden,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
@@ -58,10 +62,14 @@ namespace TaskMaster.Api.Extensions
             static async Task WriteErrorResponseAsync(HttpContext context, string errorMessage, Exception? error)
             {
                 context.Response.ContentType = MediaTypeNames.Application.Json;
-                await context.Response.WriteAsJsonAsync(new ErrorResponse(errorMessage, context.Response.StatusCode)
+                var errorResponse = new ErrorResponse(errorMessage, context.Response.StatusCode);
+
+                if (error?.StackTrace != null)
                 {
-                    StackTrace = error?.StackTrace ?? "Stack trace is missing"
-                });
+                    errorResponse.StackTrace = error.StackTrace;
+                }
+
+                await context.Response.WriteAsJsonAsync(errorResponse);
             }
 
             #endregion

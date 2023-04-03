@@ -5,6 +5,7 @@ using TaskMaster.Infrastructure.Entities;
 using TaskMaster.Infrastructure.Repositories.Abstractions;
 using TaskMaster.Infrastructure.Specifications.TaskLists;
 using TaskMaster.Shared.Exceptions;
+using TaskMaster.Shared.Extensions;
 
 namespace TaskMaster.Application.MediatR.TaskLists.Handlers
 {
@@ -19,14 +20,10 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
             ArgumentNullException.ThrowIfNull(request.Id, nameof(request.Id));
 
             var taskListWithAssignees = await UnitOfWork.Repository<IQueryRepository<TaskList>>()
-                .FirstOrDefaultAsync(new TaskListByIdSpecification(request.Id.Value, new() { IncludeAssignees = true }), cancellationToken);
+                .FirstOrDefaultAsync(new SingleTaskListSpecification(request.Id.Value, new() { IncludeAssignees = true }), cancellationToken)
+                .ThrowIfNullAsync<TaskList?, NotFoundException>();
 
-            if (taskListWithAssignees == null)
-            {
-                throw new NotFoundException();
-            }
-
-            if (taskListWithAssignees.AuthorId != CurrentUserId &&
+            if (taskListWithAssignees!.AuthorId != CurrentUserId &&
                 !taskListWithAssignees.Assignees.Any(x => x.AssigneeId == CurrentUserId))
             {
                 throw new NotOwnedByYouException();
