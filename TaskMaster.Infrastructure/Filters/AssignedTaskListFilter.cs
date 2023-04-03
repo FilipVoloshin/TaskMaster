@@ -3,7 +3,6 @@ namespace TaskMaster.Infrastructure.Filters
 {
     public record AssignedTaskListFilter(Guid? CurrentUserId = null)
     {
-        public bool ValidateAssignment { get; set; }
         public bool IncludeAssignee { get; set; }
         public bool IncludeAuthor { get; set; }
         public bool IncludeTaskList { get; set; }

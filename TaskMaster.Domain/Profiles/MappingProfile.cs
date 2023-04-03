@@ -14,8 +14,11 @@ namespace TaskMaster.Application.Profiles
             CreateMap<CreateTaskListCommand, TaskList>()
                 .ForMember(dest => dest.CreatedAtUtc, opt => opt.MapFrom(src => DateTimeOffset.UtcNow));
             CreateMap<UpdateTaskListCommand, TaskList>().ReverseMap();
-
             CreateMap<CreateAssignedTaskListCommand, AssignedTaskList>();
+
+            CreateMap<AssignedTaskList, AssigneeVm>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Assignee.Name))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Assignee.Id));
         }
     }
 }

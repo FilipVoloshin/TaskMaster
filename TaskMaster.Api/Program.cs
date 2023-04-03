@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TaskMaster.Api.Extensions;
 using TaskMaster.Application.Extensions;
 using TaskMaster.Application.MediatR.AssignedTaskLists.Command;
+using TaskMaster.Application.MediatR.AssignedTaskLists.Queries;
 using TaskMaster.Application.MediatR.TaskLists.Commands;
 using TaskMaster.Application.MediatR.TaskLists.Queries;
 using TaskMaster.Infrastructure.Extensions;
@@ -38,17 +39,12 @@ app.MapGet("/taskList", async ([AsParameters] GetTaskListsQuery query,
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
 
-    var taskLists = await mediator.Send(query);
-    return Results.Ok(taskLists);
+    return Results.Ok(await mediator.Send(query));
 })
 .WithName("GetTaskLists")
 .WithOpenApi();
 
-app.MapGet("/taskList/{id}", async ([AsParameters] GetSingleTaskListQuery query, [FromServices] IMediator mediator) =>
-{
-    var taskList = await mediator.Send(query);
-    return Results.Ok(taskList);
-})
+app.MapGet("/taskList/{id}", async ([AsParameters] GetSingleTaskListQuery query, [FromServices] IMediator mediator) => Results.Ok(await mediator.Send(query)))
 .WithName("GetSingleTaskList")
 .WithOpenApi();
 
@@ -61,8 +57,7 @@ app.MapPost("/taskList", async ([FromBody] CreateTaskListCommand request,
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
 
-    var taskList = await mediator.Send(request);
-    return Results.Ok(taskList);
+    return Results.Ok(await mediator.Send(request));
 })
 .WithName("CreateTaskList")
 .WithOpenApi();
@@ -76,8 +71,7 @@ app.MapPut("/taskList/{id}", async ([AsParameters] UpdateTaskListCommand request
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
 
-    var taskList = await mediator.Send(request);
-    return Results.Ok(taskList);
+    return Results.Ok(await mediator.Send(request));
 })
 .WithName("UpdateTaskList")
 .WithOpenApi();
@@ -93,6 +87,14 @@ app.MapDelete("/taskList/{id}", async ([AsParameters] DeleteTaskListCommand requ
 
 #region Assigned Task list routes
 
+app.MapGet("/taskList/{taskListId}/assigned", async (IMediator mediator, Guid taskListId) =>
+{
+    var query = new GetTaskListAssigneesQuery { TaskListId = taskListId };
+    return Results.Ok(await mediator.Send(query));
+})
+.WithName("GetTaskListAssignment")
+.WithOpenApi();
+
 app.MapPost("/taskList/{taskListId}/assigned/{assigneeId}", async ([AsParameters] CreateAssignedTaskListCommand request,
     [FromServices] IMediator mediator, IValidator<CreateAssignedTaskListCommand> validator) =>
 {
@@ -102,13 +104,12 @@ app.MapPost("/taskList/{taskListId}/assigned/{assigneeId}", async ([AsParameters
         return Results.ValidationProblem(validationResult.ToDictionary());
     }
 
-    var taskList = await mediator.Send(request);
-    return Results.Ok(taskList);
+    return Results.Ok(await mediator.Send(request));
 })
 .WithName("CreateTaskListAssignment")
 .WithOpenApi();
 
-app.MapDelete("/taskList/{taskListId}/assigned/{assigneeId}", async ([AsParameters] DeleteAssignedTaskListCommand request, 
+app.MapDelete("/taskList/{taskListId}/assigned/{assigneeId}", async ([AsParameters] DeleteAssignedTaskListCommand request,
     [FromServices] IMediator mediator, IValidator<DeleteAssignedTaskListCommand> validator) =>
 {
     var validationResult = await validator.ValidateAsync(request);
