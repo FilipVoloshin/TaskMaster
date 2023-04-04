@@ -18,7 +18,7 @@ namespace TaskMaster.Application.MediatR.AssignedTaskLists.Handlers
         {
             var taskListWithAssignees = await UnitOfWork.Repository<IQueryRepository<TaskList>>()
                .FirstOrDefaultAsync(new SingleTaskListSpecification(request.TaskListId, new() { IncludeAssignees = true }), cancellationToken)
-               .ThrowIfNullAsync<TaskList?, NotFoundException>();
+               .ThrowIfNullAsync<TaskList?, NoContentException>();
 
             if (taskListWithAssignees!.AuthorId != CurrentUserId &&
                 !taskListWithAssignees.Assignees.Any(x => x.AssigneeId == CurrentUserId))

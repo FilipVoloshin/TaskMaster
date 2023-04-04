@@ -45,7 +45,7 @@ namespace TaskMaster.Api.Extensions
                 context.Response.StatusCode = error switch
                 {
                     ApplicationException => (int)HttpStatusCode.BadRequest,
-                    NotFoundException => (int)HttpStatusCode.NotFound,
+                    NoContentException => (int)HttpStatusCode.NoContent,
                     ResourceConflictException => (int)HttpStatusCode.Conflict,
                     InvalidUserIdHeaderException or MissingUserIdHeaderException or NotOwnedByYouException => (int)HttpStatusCode.Forbidden,
                     _ => (int)HttpStatusCode.InternalServerError,

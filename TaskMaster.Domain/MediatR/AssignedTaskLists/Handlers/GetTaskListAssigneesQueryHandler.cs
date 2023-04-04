@@ -27,11 +27,11 @@ namespace TaskMaster.Application.MediatR.AssignedTaskLists.Handlers
             var assignedTaskList = await UnitOfWork
                 .Repository<IQueryRepository<TaskList>>()
                 .FirstOrDefaultAsync(specification, cancellationToken)
-                .ThrowIfNullAsync<TaskList?, NotFoundException>();
+                .ThrowIfNullAsync<TaskList?, NoContentException>();
 
             if (assignedTaskList!.Assignees.IsNullOrEmpty())
             {
-                throw new NotFoundException();
+                throw new NoContentException();
             }
 
             var taskListName = assignedTaskList.Name;

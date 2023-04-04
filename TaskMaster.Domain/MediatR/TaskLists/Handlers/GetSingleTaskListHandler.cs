@@ -19,7 +19,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
                     .Repository<IProjectionQueryRepository<TaskList>>()
                     .FirstOrDefaultAsync<SingleTaskListSpecification, TaskListVm>(new(request.Id, new(CurrentUserId) { IncludeAssignees = true }),
                         cancellationToken)
-                    .ThrowIfNullAsync<TaskListVm?, NotFoundException>();
+                    .ThrowIfNullAsync<TaskListVm?, NoContentException>();
 
             return result!;
         }

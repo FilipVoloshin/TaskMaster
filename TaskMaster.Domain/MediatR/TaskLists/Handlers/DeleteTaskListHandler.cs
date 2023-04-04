@@ -19,7 +19,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Handlers
         {
             var currentTaskList = await UnitOfWork.Repository<IQueryRepository<TaskList>>()
                 .FirstOrDefaultAsync(new SingleTaskListSpecification(request.Id), cancellationToken)
-                .ThrowIfNullAsync<TaskList?, NotFoundException>();
+                .ThrowIfNullAsync<TaskList?, NoContentException>();
 
             if (currentTaskList!.AuthorId != CurrentUserId)
             {
