@@ -72,8 +72,11 @@ dotnet build
 dotnet ef database update --project TaskMaster.Infrastructure --context CommandTaskMasterDbContext --startup-project TaskMaster.Api
 ```
 
-8) Run the project `dotnet run --project TaskMaster.Api`. To run project with seed migrations - add `--with-seed` in the end of command
+8) Run the project `dotnet run --project TaskMaster.Api --launch-profile https`. To run project with seed migrations - add `--with-seed` in the end of command
 The API should now be running at *http://localhost:5000* or *https://localhost:5001*.
+
+The Swagger should now be running at https://localhost:7777/swagger/index.html.
+
 
 ## Key Concepts
 ### CQRS 
