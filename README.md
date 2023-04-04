@@ -39,20 +39,19 @@ docker run --name taskmaster-postgres -e POSTGRES_PASSWORD=your_password -p 5433
 4) Create a new database and two users (one for read operations and another for write operations):
 
 ```sql
-CREATE DATABASE task-master;
+CREATE DATABASE "task_master";
+
+-- switch to <task_master> database
+
 CREATE USER read_user WITH PASSWORD 'read_user_password';
-CREATE USER write_user WITH PASSWORD 'write_user_password';
-
-GRANT CONNECT ON DATABASE task-master TO read_user;
-GRANT CONNECT ON DATABASE task-master TO write_user;
-
-\c task-master;
-
 GRANT USAGE ON SCHEMA public TO read_user;
-GRANT USAGE ON SCHEMA public TO write_user;
-
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO read_user;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO read_user;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT INSERT, UPDATE, DELETE ON TABLES TO write_user;
+
+CREATE USER read_write_user WITH PASSWORD 'read_write_user_password';
+GRANT USAGE, CREATE ON SCHEMA public TO read_write_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO read_write_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO read_write_user;
 ```
 Replace **read_user_password** and **write_user_password** with secure passwords.
 
@@ -60,12 +59,20 @@ Replace **read_user_password** and **write_user_password** with secure passwords
 ```json
 {
   "ConnectionStrings": {
-    "CommandPostgreSQLConnection": "Server=localhost;Port=5433;Database=task-master;User Id=write_user;Password=write_user_password;",
-    "QueryPostgreSQLConnection": "Server=localhost;Port=5433;Database=task-master;User Id=read_user;Password=read_user_password;"
+    "CommandPostgreSQLConnection": "Server=localhost;Port=5433;Database=task_master;User Id=read_write_user;Password=read_write_user_password;",
+    "QueryPostgreSQLConnection": "Server=localhost;Port=5433;Database=task_master;User Id=read_user;Password=read_user_password;"
   }
 }
 ```
-6) Run the project `dotnet run --project path/to/your/api/project`
+6) Open command prompt and move to your project with command `cd path/to/your/api/project`
+
+7) Run migrations to the project with command 
+```
+dotnet build
+dotnet ef database update --project TaskMaster.Infrastructure --context CommandTaskMasterDbContext --startup-project TaskMaster.Api
+```
+
+8) Run the project `dotnet run --project TaskMaster.Api`. To run project with seed migrations - add `--with-seed` in the end of command
 The API should now be running at *http://localhost:5000* or *https://localhost:5001*.
 
 ## Key Concepts
