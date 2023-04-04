@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-	  <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
+	</ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
+using TaskMaster.Application.Abstractions;
 using TaskMaster.Application.MediatR.Base;
 using TaskMaster.Application.ViewModels;
 using static TaskMaster.Shared.Constants;
@@ -9,7 +10,7 @@ namespace TaskMaster.Application.MediatR.TaskLists.Queries
     /// <summary>
     /// A query to get a paginated list of <see cref="TaskListVm"/> items.
     /// </summary>
-    public record GetTaskListsQuery : PaginationRequest, IRequest<IEnumerable<TaskListVm>> { }
+    public record GetTaskListsQuery : PaginationRequest, IHttpRequest;
 
     public class GetTaskListsQueryValidator : AbstractValidator<GetTaskListsQuery>
     {

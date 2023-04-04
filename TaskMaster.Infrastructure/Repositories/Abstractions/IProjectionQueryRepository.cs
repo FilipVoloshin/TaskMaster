@@ -16,7 +16,7 @@ namespace TaskMaster.Infrastructure.Repositories.Abstractions
         /// Retrieves the first entity that matches the given specification and projects it to the specified type.
         /// If no entity matches the specification, returns null.
         /// </summary>
-        /// <typeparam name="TSpec">The type of the specification, which must implement ISpecification<TEntity> and ISingleResultSpecification.</typeparam>
+        /// <typeparam name="TSpec">The type of the specification, which must implement ISpecification and ISingleResultSpecification.</typeparam>
         /// <typeparam name="TProjection">The type to project the result to.</typeparam>
         /// <param name="specification">The specification to use for filtering and fetching the entity.</param>
         /// <param name="cancellationToken">A CancellationToken to observe while waiting for the task to complete.</param>

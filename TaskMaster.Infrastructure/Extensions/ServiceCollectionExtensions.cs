@@ -13,12 +13,6 @@ using Ardalis.Specification;
 
 namespace TaskMaster.Infrastructure.Extensions
 {
-    /// <summary>
-    /// Extension method to register infrastructure services in the DI container.
-    /// </summary>
-    /// <param name="services">The collection of service descriptors.</param>
-    /// <param name="configuration">The configuration root object.</param>
-    /// <returns>The modified collection of service descriptors.</returns>
     public static class ServiceCollectionExtensions
     {
         /// <summary>

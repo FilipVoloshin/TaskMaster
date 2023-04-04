@@ -42,5 +42,28 @@
             /// </summary>
             public const int DefaultPageSize = 10;
         }
+
+        public static class ResponseMessages
+        {
+            /// <summary>
+            /// The request was successful and the expected data is returned
+            /// </summary>
+            public const string Ok = "The request was successful.";
+
+            /// <summary>
+            /// The request was invalid or cannot be served
+            /// </summary>
+            public const string BadRequest = "The request was invalid or cannot be served.";
+
+            /// <summary>
+            /// The server successfully processed the request but there is no response body to return
+            /// </summary>
+            public const string NoContent = "The server successfully processed the request but there is no response body to return.";
+
+            /// <summary>
+            /// The server encountered an unexpected error while processing the request
+            /// </summary>
+            public const string InternalServerError = "The server encountered an unexpected error while processing the request.";
+        }
     }
 }

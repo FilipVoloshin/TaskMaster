@@ -2,6 +2,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TaskMaster.Api.Extensions;
+using TaskMaster.Api.Models;
 using TaskMaster.Application.Extensions;
 using TaskMaster.Application.MediatR.AssignedTaskLists.Command;
 using TaskMaster.Application.MediatR.AssignedTaskLists.Queries;
@@ -29,98 +30,60 @@ app.UseHttpsRedirection()
     .UseApplicationMiddlewares()
     .UseExceptionMiddleware();
 
-#region Task List routes
-app.MapGet("/taskList", async ([AsParameters] GetTaskListsQuery query,
-    [FromServices] IMediator mediator, IValidator<GetTaskListsQuery> validator) =>
+app.Mediate<GetTaskListsQuery>(new(HttpMethods.Get, "/taskList")
 {
-    var validationResult = await validator.ValidateAsync(query);
-    if (!validationResult.IsValid)
-    {
-        return Results.ValidationProblem(validationResult.ToDictionary());
-    }
+    Description = "Get all task lists",
+    Summary = "This endpoint returns all task lists",
+    Tag = "TaskList"
+});
 
-    return Results.Ok(await mediator.Send(query));
-})
-.WithName("GetTaskLists")
-.WithOpenApi();
-
-app.MapGet("/taskList/{id}", async ([AsParameters] GetSingleTaskListQuery query, [FromServices] IMediator mediator) => Results.Ok(await mediator.Send(query)))
-.WithName("GetSingleTaskList")
-.WithOpenApi();
-
-app.MapPost("/taskList", async ([FromBody] CreateTaskListCommand request,
-    [FromServices] IMediator mediator, IValidator<CreateTaskListCommand> validator) =>
+app.Mediate<GetSingleTaskListQuery>(new(HttpMethods.Get, "/taskList/{id}")
 {
-    var validationResult = await validator.ValidateAsync(request);
-    if (!validationResult.IsValid)
-    {
-        return Results.ValidationProblem(validationResult.ToDictionary());
-    }
+    Description = "Get a single task list",
+    Summary = "This endpoint returns a single task list",
+    Tag = "TaskList"
+});
 
-    return Results.Ok(await mediator.Send(request));
-})
-.WithName("CreateTaskList")
-.WithOpenApi();
-
-app.MapPut("/taskList/{id}", async ([AsParameters] UpdateTaskListCommand request,
-    [FromServices] IMediator mediator, IValidator<UpdateTaskListCommand> validator) =>
+app.Mediate<CreateTaskListCommand>(new(HttpMethods.Post, "/taskList")
 {
-    var validationResult = await validator.ValidateAsync(request);
-    if (!validationResult.IsValid)
-    {
-        return Results.ValidationProblem(validationResult.ToDictionary());
-    }
+    Description = "Create a new task list",
+    Summary = "This endpoint creates a new task list",
+    Tag = "TaskList"
+});
 
-    return Results.Ok(await mediator.Send(request));
-})
-.WithName("UpdateTaskList")
-.WithOpenApi();
-
-app.MapDelete("/taskList/{id}", async ([AsParameters] DeleteTaskListCommand request, [FromServices] IMediator mediator) =>
+app.Mediate<UpdateTaskListCommand>(new(HttpMethods.Put, "/taskList/{id}")
 {
-    await mediator.Send(request);
-    return Results.Ok();
-})
-.WithName("DeleteTaskList")
-.WithOpenApi();
-#endregion
+    Description = "Update a task list",
+    Summary = "This endpoint updates an existing task list",
+    Tag = "TaskList"
+});
 
-#region Assigned Task list routes
-
-app.MapGet("/taskList/{taskListId}/assigned", async ([AsParameters] GetTaskListAssigneesQuery query, IMediator mediator, Guid taskListId) => Results.Ok(await mediator.Send(query)))
-.WithName("GetTaskListAssignment")
-.WithOpenApi();
-
-app.MapPost("/taskList/{taskListId}/assigned/{assigneeId}", async ([AsParameters] CreateAssignedTaskListCommand request,
-    [FromServices] IMediator mediator, IValidator<CreateAssignedTaskListCommand> validator) =>
+app.Mediate<DeleteTaskListCommand>(new(HttpMethods.Delete, "/taskList/{id}")
 {
-    var validationResult = await validator.ValidateAsync(request);
-    if (!validationResult.IsValid)
-    {
-        return Results.ValidationProblem(validationResult.ToDictionary());
-    }
+    Description = "Delete a task list",
+    Summary = "This endpoint deletes an existing task list",
+    Tag = "TaskList"
+});
 
-    return Results.Ok(await mediator.Send(request));
-})
-.WithName("CreateTaskListAssignment")
-.WithOpenApi();
-
-app.MapDelete("/taskList/{taskListId}/assigned/{assigneeId}", async ([AsParameters] DeleteAssignedTaskListCommand request,
-    [FromServices] IMediator mediator, IValidator<DeleteAssignedTaskListCommand> validator) =>
+app.Mediate<GetTaskListAssigneesQuery>(new(HttpMethods.Get, "/taskList/{taskListId}/assigned")
 {
-    var validationResult = await validator.ValidateAsync(request);
+    Description = "Get task list assignees",
+    Summary = "This endpoint returns all assignees for a task list",
+    Tag = "AssignedTaskList"
+});
 
-    if (!validationResult.IsValid)
-    {
-        return Results.ValidationProblem(validationResult.ToDictionary());
-    }
+app.Mediate<CreateAssignedTaskListCommand>(new(HttpMethods.Post, "/taskList/{taskListId}/assigned/{assigneeId}")
+{
+    Description = "Create a task list assignment",
+    Summary = "This endpoint assigns a user to a task list",
+    Tag = "AssignedTaskList"
+});
 
-    await mediator.Send(request);
-    return Results.Ok();
-})
-.WithName("DeleteTaskListAssignment")
-.WithOpenApi();
-
-#endregion
+app.Mediate<DeleteAssignedTaskListCommand>(new(HttpMethods.Delete, "/taskList/{taskListId}/assigned/{assigneeId}")
+{
+    Description = "Delete a task list assignment",
+    Summary = "This endpoint unassigns a user from a task list",
+    Tag = "AssignedTaskList"
+});
 
 app.Run();

@@ -14,7 +14,7 @@ namespace TaskMaster.Shared.Extensions
         /// <typeparam name="TException">The type of the exception to throw.</typeparam>
         /// <param name="task">The task to check for null result.</param>
         /// <returns>The result of the task.</returns>
-        /// <exception cref="TException">Thrown when the result of the task is null.</exception>
+        /// <exception>Thrown when the result of the task is null.</exception>
         public static async Task<TResult> ThrowIfNullAsync<TResult, TException>(this Task<TResult> task)
             where TResult : class?
             where TException : Exception, new()
@@ -58,7 +58,7 @@ namespace TaskMaster.Shared.Extensions
         /// <typeparam name="TException">The type of the exception to throw.</typeparam>
         /// <param name="task">The task to check for null or empty result.</param>
         /// <returns>The result of the task.</returns>
-        /// <exception cref="TException">Thrown when the result of the task is null or empty.</exception>
+        /// <exception>Thrown when the result of the task is null or empty.</exception>
         public static async Task<List<TResult>> ThrowIfNullOrEmptyAsync<TResult, TException>(this Task<List<TResult>> task)
             where TException : Exception, new()
         {
@@ -79,7 +79,7 @@ namespace TaskMaster.Shared.Extensions
         /// <typeparam name="TException">The type of the exception to be thrown.</typeparam>
         /// <param name="task">The task to be checked.</param>
         /// <returns>The task's result.</returns>
-        /// <exception cref="TException">Thrown if the task's result is not null.</exception>
+        /// <exception>Thrown if the task's result is not null.</exception>
         public static async Task<TResult> ThrowIfNotNullAsync<TResult, TException>(this Task<TResult> task)
              where TResult : class?
              where TException : Exception, new()

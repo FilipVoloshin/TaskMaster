@@ -9,7 +9,7 @@ namespace TaskMaster.Infrastructure.Specifications.TaskLists
     /// </summary>
     public class TaskListsSpecification : Specification<TaskList>
     {
-        // <summary>
+        /// <summary>
         /// Initializes a new instance of the <see cref="TaskListsSpecification"/> class.
         /// </summary>
         /// <param name="filter">The TaskList filter containing additional conditions and data to include.</param>

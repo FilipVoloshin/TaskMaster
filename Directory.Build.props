@@ -6,4 +6,10 @@
     <LangVersion>latestmajor</LangVersion>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
+	<PropertyGroup>
+		<NoWarn>$(NoWarn);CS1591</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
 </Project>

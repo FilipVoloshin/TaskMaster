@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
+using TaskMaster.Application.Abstractions;
 
 namespace TaskMaster.Application.MediatR.AssignedTaskLists.Command
 {
     /// <summary>
     /// Represents a command to delete an assigned task list.
     /// </summary>
-    public record DeleteAssignedTaskListCommand(Guid TaskListId, Guid AssigneeId) : IRequest<Unit>;
+    public record DeleteAssignedTaskListCommand(Guid TaskListId, Guid AssigneeId) : IHttpRequest;
     public class DeleteAssignedTaskListCommandValidator : AbstractValidator<DeleteAssignedTaskListCommand>
     {
         public DeleteAssignedTaskListCommandValidator()

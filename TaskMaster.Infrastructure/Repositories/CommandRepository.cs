@@ -13,6 +13,7 @@ namespace TaskMaster.Infrastructure.Repositories
     public class CommandRepository<TEntity> : BaseRepository<TEntity>, ICommandRepository<TEntity>
         where TEntity : BaseEntity
     {
+        /// <summary>
         /// Initializes a new instance of the <see cref="CommandRepository{TEntity}"/> class.
         /// </summary>
         /// <param name="context">The <see cref="CommandTaskMasterDbContext"/> to be used by the repository.</param>
