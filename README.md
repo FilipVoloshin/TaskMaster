@@ -69,7 +69,8 @@ Replace **read_user_password** and **write_user_password** with secure passwords
 The API should now be running at *http://localhost:5000* or *https://localhost:5001*.
 
 ## Key Concepts
-### CQRS (Command Query Responsibility Segregation) is a pattern that separates the read and write operations in an application. Commands are responsible for modifying data, while queries are responsible for retrieving data. This separation of concerns enables better maintainability, scalability, and performance optimization.
+### CQRS 
+Command Query Responsibility Segregation is a pattern that separates the read and write operations in an application. Commands are responsible for modifying data, while queries are responsible for retrieving data. This separation of concerns enables better maintainability, scalability, and performance optimization.
 
 ### MediatR
 MediatR is a library that implements the Mediator pattern, simplifying communication between various components in the application. It promotes loose coupling by allowing objects to send and receive messages without knowing about each other's existence.
