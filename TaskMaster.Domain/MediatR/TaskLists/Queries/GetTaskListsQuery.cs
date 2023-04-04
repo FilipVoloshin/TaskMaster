@@ -6,7 +6,10 @@ using static TaskMaster.Shared.Constants;
 
 namespace TaskMaster.Application.MediatR.TaskLists.Queries
 {
-    public class GetTaskListsQuery : PaginationRequest, IRequest<IEnumerable<TaskListVm>> { }
+    /// <summary>
+    /// A query to get a paginated list of <see cref="TaskListVm"/> items.
+    /// </summary>
+    public record GetTaskListsQuery : PaginationRequest, IRequest<IEnumerable<TaskListVm>> { }
 
     public class GetTaskListsQueryValidator : AbstractValidator<GetTaskListsQuery>
     {

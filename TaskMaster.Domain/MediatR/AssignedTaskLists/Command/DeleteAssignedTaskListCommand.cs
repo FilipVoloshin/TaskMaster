@@ -3,12 +3,10 @@ using MediatR;
 
 namespace TaskMaster.Application.MediatR.AssignedTaskLists.Command
 {
-    public class DeleteAssignedTaskListCommand : IRequest<Unit>
-    {
-        public Guid TaskListId { get; set; }
-        public Guid AssigneeId { get; set; }
-    }
-
+    /// <summary>
+    /// Represents a command to delete an assigned task list.
+    /// </summary>
+    public record DeleteAssignedTaskListCommand(Guid TaskListId, Guid AssigneeId) : IRequest<Unit>;
     public class DeleteAssignedTaskListCommandValidator : AbstractValidator<DeleteAssignedTaskListCommand>
     {
         public DeleteAssignedTaskListCommandValidator()

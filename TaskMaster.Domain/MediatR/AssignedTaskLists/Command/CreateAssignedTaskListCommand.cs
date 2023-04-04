@@ -3,11 +3,10 @@ using MediatR;
 
 namespace TaskMaster.Application.MediatR.AssignedTaskLists.Command
 {
-    public class CreateAssignedTaskListCommand : IRequest<Guid>
-    {
-        public Guid AssigneeId { get; set; }
-        public Guid TaskListId { get; set; }
-    }
+    /// <summary>
+    /// Represents a command to create an assigned task list for a specific assignee and task list.
+    /// </summary>
+    public record CreateAssignedTaskListCommand(Guid AssigneeId, Guid TaskListId) : IRequest<Guid>;
 
     public class CreateAssignedTaskListCommandValidator : AbstractValidator<CreateAssignedTaskListCommand>
     {

@@ -4,8 +4,15 @@ using TaskMaster.Infrastructure.Filters;
 
 namespace TaskMaster.Infrastructure.Specifications.AssignedTaskLists
 {
+    /// <summary>
+    /// A specification for retrieving a list of assigned tasks based on the specified filters, including optional data for author, task list, and assignee, as well as pagination and tracking options.
+    /// </summary>
     public class AssignedTaskListsSpecification : Specification<AssignedTaskList>
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AssignedTaskListsSpecification"/> class.
+        /// </summary>
+        /// <param name="filter">The filter containing the conditions and data to include.</param>
         public AssignedTaskListsSpecification(AssignedTaskListFilter filter)
         {
             if (filter.IncludeAuthor)

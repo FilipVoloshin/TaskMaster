@@ -27,11 +27,20 @@
             public const string DateTimeType = "timestamp with time zone";
         }
 
+        /// <summary>
+        /// Static class containing constants for pagination.
+        /// </summary>
         public static class Pagination
         {
+            /// <summary>
+            /// The default page number used for pagination.
+            /// </summary>
             public const int DefaultPageNumber = 1;
-            public const int DefaultPageSize = 10;
 
+            /// <summary>
+            /// The default page size used for pagination.
+            /// </summary>
+            public const int DefaultPageSize = 10;
         }
     }
 }

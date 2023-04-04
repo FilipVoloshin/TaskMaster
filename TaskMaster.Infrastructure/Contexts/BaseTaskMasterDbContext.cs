@@ -4,6 +4,9 @@ using TaskMaster.Infrastructure.Entities;
 
 namespace TaskMaster.Infrastructure.Contexts
 {
+    /// <summary>
+    /// Base DbContext for TaskMaster application.
+    /// </summary>
     public abstract class BaseTaskMasterDbContext : DbContext
     {
         public DbSet<User> Users { get; set; } = null!;

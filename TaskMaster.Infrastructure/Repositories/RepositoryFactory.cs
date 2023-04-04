@@ -12,6 +12,10 @@ namespace TaskMaster.Infrastructure.Repositories
         private ConcurrentDictionary<Type, object>? _repositories;
         private readonly IServiceProvider _serviceProvider;
 
+        /// <summary>
+        /// Initialized a new instance of the <see cref="RepositoryFactory"/>
+        /// </summary>
+        /// <param name="serviceProvider">Service objects</param>
         public RepositoryFactory(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
