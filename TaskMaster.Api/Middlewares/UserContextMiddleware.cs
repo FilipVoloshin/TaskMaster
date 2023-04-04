@@ -1,6 +1,6 @@
 ﻿using TaskMaster.Application.Abstractions;
+using TaskMaster.Shared;
 using TaskMaster.Shared.Exceptions;
-using static TaskMaster.Shared.Constants;
 
 namespace TaskMaster.Api.Middlewares
 {
@@ -26,7 +26,7 @@ namespace TaskMaster.Api.Middlewares
         /// <exception cref="InvalidUserIdHeaderException">Thrown when the provided User ID header is not in a valid format.</exception>
         public async Task InvokeAsync(HttpContext context, IUserContext userContext)
         {
-            if (context.Request.Headers.TryGetValue(HttpHeaders.UserIdHeader, out var userIdString))
+            if (context.Request.Headers.TryGetValue(Constants.HttpHeaders.UserIdHeader, out var userIdString))
             {
                 if (Guid.TryParse(userIdString, out var userId))
                 {

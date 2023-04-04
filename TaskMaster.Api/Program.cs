@@ -87,11 +87,7 @@ app.MapDelete("/taskList/{id}", async ([AsParameters] DeleteTaskListCommand requ
 
 #region Assigned Task list routes
 
-app.MapGet("/taskList/{taskListId}/assigned", async (IMediator mediator, Guid taskListId) =>
-{
-    var query = new GetTaskListAssigneesQuery { TaskListId = taskListId };
-    return Results.Ok(await mediator.Send(query));
-})
+app.MapGet("/taskList/{taskListId}/assigned", async ([AsParameters] GetTaskListAssigneesQuery query, IMediator mediator, Guid taskListId) => Results.Ok(await mediator.Send(query)))
 .WithName("GetTaskListAssignment")
 .WithOpenApi();
 
