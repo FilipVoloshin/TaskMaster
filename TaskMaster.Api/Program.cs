@@ -22,7 +22,10 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    //await app.Services.SeedDatabaseAsync();
+    if (args.Contains("--with-seed"))
+    {
+        await app.Services.SeedDatabaseAsync();
+    }
     app.UseSwaggerModule();
 }
 
